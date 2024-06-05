@@ -3,9 +3,9 @@ package handler
 import (
 	"context"
 	"github.com/eyebluecn/sc-bff/idl_gen/sc_bff_api"
-	"github.com/eyebluecn/sc-bff/src/common/result"
 	"github.com/eyebluecn/sc-bff/src/infra/rpc"
 	"github.com/eyebluecn/sc-bff/src/infra/session"
+	"github.com/eyebluecn/sc-bff/src/model/result"
 	"github.com/eyebluecn/sc-subscription-idl/kitex_gen/sc_subscription_api"
 )
 import "github.com/cloudwego/hertz/pkg/app"

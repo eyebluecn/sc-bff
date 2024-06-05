@@ -3,11 +3,11 @@ package handler
 import (
 	"context"
 	"github.com/eyebluecn/sc-bff/idl_gen/sc_bff_api"
-	"github.com/eyebluecn/sc-bff/src/common/result"
-	"github.com/eyebluecn/sc-bff/src/converter/api2vo_conv"
-	"github.com/eyebluecn/sc-bff/src/converter/api_conv"
+	"github.com/eyebluecn/sc-bff/src/converter/dto2dto"
+	"github.com/eyebluecn/sc-bff/src/converter/vo2dto"
 	"github.com/eyebluecn/sc-bff/src/infra/rpc"
 	"github.com/eyebluecn/sc-bff/src/infra/session"
+	"github.com/eyebluecn/sc-bff/src/model/result"
 	"github.com/eyebluecn/sc-bff/src/util"
 	"github.com/eyebluecn/sc-subscription-idl/kitex_gen/sc_subscription_api"
 )
@@ -39,7 +39,7 @@ func (receiver SubscriptionPageHandler) Handle(ctx context.Context, appCtx *app.
 		ReaderId:  util.ToInt64Ptr(readerVO.ID),
 		ColumnIds: req.ColumnIds,
 		OrderId:   req.OrderId,
-		Status:    api2vo_conv.ConvertSubscriptionStatus(req.Status),
+		Status:    dto2dto.ConvertSubscriptionStatus(req.Status),
 	}
 
 	subscriptionList, pagination, err := rpc.NewSubscriptionCaller().SubscriptionPage(ctx, request)
@@ -48,8 +48,8 @@ func (receiver SubscriptionPageHandler) Handle(ctx context.Context, appCtx *app.
 	}
 
 	return &sc_bff_api.SubscriptionPageResponse{
-		Data:       api_conv.ConvertSubscriptionDTOS(subscriptionList),
-		Pagination: api_conv.ConvertPagination(pagination),
+		Data:       vo2dto.ConvertSubscriptionDTOS(subscriptionList),
+		Pagination: vo2dto.ConvertPagination(pagination),
 		Code:       0,
 		Msg:        "",
 	}, nil

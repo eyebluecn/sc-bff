@@ -3,7 +3,7 @@ package handler
 import (
 	"context"
 	"fmt"
-	"github.com/eyebluecn/sc-bff/src/common/result"
+	result2 "github.com/eyebluecn/sc-bff/src/model/result"
 	"github.com/eyebluecn/sc-bff/src/util"
 	"time"
 )
@@ -16,6 +16,6 @@ func NewPingHandler() *PingHandler {
 	return &PingHandler{}
 }
 
-func (receiver PingHandler) Handle(c context.Context, ctx *app.RequestContext) (result.Response, error) {
-	return result.NewWebResult(fmt.Sprintf("PONG! time = %v", util.FormatDateTime(time.Now()))), nil
+func (receiver PingHandler) Handle(c context.Context, ctx *app.RequestContext) (result2.Response, error) {
+	return result2.NewWebResult(fmt.Sprintf("PONG! time = %v", util.FormatDateTime(time.Now()))), nil
 }

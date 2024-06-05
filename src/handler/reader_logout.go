@@ -4,8 +4,8 @@ import (
 	"context"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"github.com/eyebluecn/sc-bff/src/common/constant"
-	"github.com/eyebluecn/sc-bff/src/common/result"
 	"github.com/eyebluecn/sc-bff/src/infra/session"
+	result2 "github.com/eyebluecn/sc-bff/src/model/result"
 )
 import "github.com/cloudwego/hertz/pkg/app"
 
@@ -16,7 +16,7 @@ func NewReaderLogoutHandler() *ReaderLogoutHandler {
 	return &ReaderLogoutHandler{}
 }
 
-func (receiver ReaderLogoutHandler) Handle(ctx context.Context, appCtx *app.RequestContext) (result.Response, error) {
+func (receiver ReaderLogoutHandler) Handle(ctx context.Context, appCtx *app.RequestContext) (result2.Response, error) {
 
 	readerVO := session.DefaultSession().FindLoginReader(appCtx)
 	if readerVO != nil {
@@ -26,6 +26,6 @@ func (receiver ReaderLogoutHandler) Handle(ctx context.Context, appCtx *app.Requ
 		session.DefaultSession().DelLoginReader(str)
 	}
 
-	return result.NewWebResult("退出成功！"), nil
+	return result2.NewWebResult("退出成功！"), nil
 
 }

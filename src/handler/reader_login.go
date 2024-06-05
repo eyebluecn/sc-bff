@@ -6,11 +6,11 @@ import (
 	"github.com/cloudwego/hertz/pkg/protocol"
 	"github.com/eyebluecn/sc-bff/idl_gen/sc_bff_api"
 	"github.com/eyebluecn/sc-bff/src/common/constant"
-	"github.com/eyebluecn/sc-bff/src/common/result"
-	"github.com/eyebluecn/sc-bff/src/converter/api_conv"
+	"github.com/eyebluecn/sc-bff/src/converter/vo2dto"
 	"github.com/eyebluecn/sc-bff/src/infra/rpc"
 	"github.com/eyebluecn/sc-bff/src/infra/session"
-	"github.com/eyebluecn/sc-bff/src/model/vo_model"
+	"github.com/eyebluecn/sc-bff/src/model/result"
+	"github.com/eyebluecn/sc-bff/src/model/vo"
 	"github.com/eyebluecn/sc-bff/src/util"
 	"github.com/eyebluecn/sc-misc-idl/kitex_gen/sc_misc_api"
 )
@@ -47,11 +47,11 @@ func (receiver ReaderLoginHandler) Handle(ctx context.Context, appCtx *app.Reque
 	_ = receiver.setCookieAndStorage(ctx, appCtx, readerVo)
 
 	return &sc_bff_api.ReaderLoginResponse{
-		Data: api_conv.ConvertReaderDTO(readerVo),
+		Data: vo2dto.ConvertReaderDTO(readerVo),
 	}, nil
 }
 
-func (receiver ReaderLoginHandler) setCookieAndStorage(c context.Context, appCtx *app.RequestContext, readerVo *vo_model.ReaderVO) error {
+func (receiver ReaderLoginHandler) setCookieAndStorage(c context.Context, appCtx *app.RequestContext, readerVo *vo.ReaderVO) error {
 	//登录成功后写入cookie.
 	key := util.Uuid()
 	//存储一年

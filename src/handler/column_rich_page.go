@@ -3,12 +3,11 @@ package handler
 import (
 	"context"
 	"github.com/eyebluecn/sc-bff/idl_gen/sc_bff_api"
-	"github.com/eyebluecn/sc-bff/src/common/result"
-	"github.com/eyebluecn/sc-bff/src/converter/api2vo_conv"
-	"github.com/eyebluecn/sc-bff/src/converter/api_conv"
-	"github.com/eyebluecn/sc-bff/src/converter/vo2vo_conv"
+	"github.com/eyebluecn/sc-bff/src/converter/dto2dto"
+	"github.com/eyebluecn/sc-bff/src/converter/vo2dto"
 	"github.com/eyebluecn/sc-bff/src/infra/rpc"
 	"github.com/eyebluecn/sc-bff/src/infra/session"
+	"github.com/eyebluecn/sc-bff/src/model/result"
 	"github.com/eyebluecn/sc-misc-idl/kitex_gen/sc_misc_api"
 	"github.com/eyebluecn/sc-misc-idl/kitex_gen/sc_misc_base"
 )
@@ -33,11 +32,11 @@ func (receiver ColumnRichPageHandler) Handle(ctx context.Context, appCtx *app.Re
 	var operator *sc_misc_base.Operator
 	readerVO := session.DefaultSession().FindLoginReader(appCtx)
 	if readerVO != nil {
-		operator = vo2vo_conv.ConvertReaderOperator(readerVO)
+		operator = vo2dto.ConvertReaderOperator(readerVO)
 	} else {
 		editorVO := session.DefaultSession().FindLoginEditor(appCtx)
 		if editorVO != nil {
-			operator = vo2vo_conv.ConvertEditorOperator(editorVO)
+			operator = vo2dto.ConvertEditorOperator(editorVO)
 		}
 	}
 
@@ -46,7 +45,7 @@ func (receiver ColumnRichPageHandler) Handle(ctx context.Context, appCtx *app.Re
 		PageSize: req.PageSize,
 		Name:     nil,
 		AuthorId: nil,
-		Status:   api2vo_conv.ConvertColumnStatus(req.Status),
+		Status:   dto2dto.ConvertColumnStatus(req.Status),
 		Operator: operator,
 	}
 
@@ -57,8 +56,8 @@ func (receiver ColumnRichPageHandler) Handle(ctx context.Context, appCtx *app.Re
 
 	return &sc_bff_api.ColumnRichPageResponse{
 		Data: &sc_bff_api.ColumnRichPageData{
-			Items:      api_conv.ConvertRichColumnDTOS(columnList),
-			Pagination: api_conv.ConvertPagination(pagination),
+			Items:      vo2dto.ConvertRichColumnDTOS(columnList),
+			Pagination: vo2dto.ConvertPagination(pagination),
 		},
 		Code: 0,
 		Msg:  "",

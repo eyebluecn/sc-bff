@@ -6,12 +6,11 @@ import (
 	"github.com/cloudwego/hertz/pkg/protocol"
 	"github.com/eyebluecn/sc-bff/idl_gen/sc_bff_api"
 	"github.com/eyebluecn/sc-bff/src/common/constant"
-	"github.com/eyebluecn/sc-bff/src/common/enums"
 	"github.com/eyebluecn/sc-bff/src/common/errs"
-	"github.com/eyebluecn/sc-bff/src/common/result"
-	"github.com/eyebluecn/sc-bff/src/converter/api_conv"
+	"github.com/eyebluecn/sc-bff/src/converter/vo2dto"
 	"github.com/eyebluecn/sc-bff/src/infra/session"
-	"github.com/eyebluecn/sc-bff/src/model/vo_model"
+	"github.com/eyebluecn/sc-bff/src/model/result"
+	"github.com/eyebluecn/sc-bff/src/model/vo"
 	"github.com/eyebluecn/sc-bff/src/util"
 )
 import "github.com/cloudwego/hertz/pkg/app"
@@ -34,15 +33,15 @@ func (receiver ReaderTinyLoginHandler) Handle(ctx context.Context, appCtx *app.R
 	hlog.CtxInfof(ctx, "尝试tinyLogin")
 	readerVo := session.DefaultSession().FindLoginReader(appCtx)
 	if readerVo == nil {
-		return nil, errs.CodeErrorf(enums.StatusCodeLogin, "未登录，请先登录")
+		return nil, errs.CodeErrorf(errs.StatusCodeLogin, "未登录，请先登录")
 	} else {
 		return &sc_bff_api.ReaderTinyLoginResponse{
-			Data: api_conv.ConvertReaderDTO(readerVo),
+			Data: vo2dto.ConvertReaderDTO(readerVo),
 		}, nil
 	}
 }
 
-func (receiver ReaderTinyLoginHandler) setCookieAndStorage(c context.Context, appCtx *app.RequestContext, readerVo *vo_model.ReaderVO) error {
+func (receiver ReaderTinyLoginHandler) setCookieAndStorage(c context.Context, appCtx *app.RequestContext, readerVo *vo.ReaderVO) error {
 	//登录成功后写入cookie.
 	key := util.Uuid()
 	//存储一年

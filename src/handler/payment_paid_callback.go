@@ -3,9 +3,9 @@ package handler
 import (
 	"context"
 	"github.com/eyebluecn/sc-bff/idl_gen/sc_bff_api"
-	"github.com/eyebluecn/sc-bff/src/common/result"
-	"github.com/eyebluecn/sc-bff/src/converter/api_conv"
+	"github.com/eyebluecn/sc-bff/src/converter/vo2dto"
 	"github.com/eyebluecn/sc-bff/src/infra/rpc"
+	"github.com/eyebluecn/sc-bff/src/model/result"
 	"github.com/eyebluecn/sc-misc-idl/kitex_gen/sc_misc_api"
 )
 import "github.com/cloudwego/hertz/pkg/app"
@@ -35,7 +35,7 @@ func (receiver PaymentPaidCallbackHandler) Handle(ctx context.Context, appCtx *a
 	}
 
 	resp := &sc_bff_api.PaymentPaidCallbackResponse{
-		Payment: api_conv.ConvertPaymentDTO(paymentVO),
+		Payment: vo2dto.ConvertPaymentDTO(paymentVO),
 		Code:    0,
 		Msg:     "",
 	}

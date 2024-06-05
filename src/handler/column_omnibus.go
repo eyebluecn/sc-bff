@@ -4,10 +4,10 @@ import (
 	"context"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/eyebluecn/sc-bff/idl_gen/sc_bff_api"
-	"github.com/eyebluecn/sc-bff/src/common/result"
-	"github.com/eyebluecn/sc-bff/src/converter/vo2vo_conv"
+	"github.com/eyebluecn/sc-bff/src/converter/vo2dto"
 	"github.com/eyebluecn/sc-bff/src/infra/rpc"
 	"github.com/eyebluecn/sc-bff/src/infra/session"
+	"github.com/eyebluecn/sc-bff/src/model/result"
 	"github.com/eyebluecn/sc-misc-idl/kitex_gen/sc_misc_api"
 )
 import "github.com/cloudwego/hertz/pkg/app"
@@ -31,7 +31,7 @@ func (receiver ColumnOmnibusHandler) Handle(ctx context.Context, appCtx *app.Req
 	if err != nil {
 		return nil, err
 	}
-	operator := vo2vo_conv.ConvertEditorOperator(editorVO)
+	operator := vo2dto.ConvertEditorOperator(editorVO)
 
 	request := &sc_misc_api.ColumnOmnibusRequest{
 		AuthorName:  req.AuthorName,

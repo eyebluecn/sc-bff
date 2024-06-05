@@ -3,9 +3,9 @@ package auth
 import (
 	"context"
 	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/eyebluecn/sc-bff/src/common/enums"
-	"github.com/eyebluecn/sc-bff/src/common/result"
+	"github.com/eyebluecn/sc-bff/src/common/errs"
 	"github.com/eyebluecn/sc-bff/src/infra/session"
+	"github.com/eyebluecn/sc-bff/src/model/result"
 	"net/http"
 )
 
@@ -23,7 +23,7 @@ func (receiver ReaderOrEditorAuth) Handle(c context.Context, appCtx *app.Request
 	if readerVO == nil && editorVO == nil {
 
 		//按照response返回
-		appCtx.JSON(enums.StatusCodeUnauthorized.HttpCode(), result.NewCodeWebResult(enums.StatusCodeUnauthorized, "读者或者编辑未登录，禁止访问"))
+		appCtx.JSON(errs.StatusCodeUnauthorized.HttpCode(), result.NewCodeWebResult(errs.StatusCodeUnauthorized, "读者或者编辑未登录，禁止访问"))
 		appCtx.AbortWithStatus(http.StatusUnauthorized)
 	}
 }

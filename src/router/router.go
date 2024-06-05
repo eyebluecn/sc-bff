@@ -5,12 +5,11 @@ import (
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
-	"github.com/eyebluecn/sc-bff/src/common/enums"
 	"github.com/eyebluecn/sc-bff/src/common/errs"
-	"github.com/eyebluecn/sc-bff/src/common/result"
 	"github.com/eyebluecn/sc-bff/src/handler"
 	"github.com/eyebluecn/sc-bff/src/handler/auth"
-	"github.com/eyebluecn/sc-bff/src/model"
+	result2 "github.com/eyebluecn/sc-bff/src/model/result"
+	"github.com/eyebluecn/sc-bff/src/model/types"
 )
 
 type Router struct{}
@@ -54,7 +53,7 @@ func (receiver Router) Register(h *server.Hertz) {
 }
 
 // 统一格式处理
-func (receiver Router) Wrap(methodHandler model.HttpHandler) app.HandlerFunc {
+func (receiver Router) Wrap(methodHandler types.HttpHandler) app.HandlerFunc {
 
 	if methodHandler == nil {
 		methodHandler = handler.NewNotFoundHandler()
@@ -66,19 +65,19 @@ func (receiver Router) Wrap(methodHandler model.HttpHandler) app.HandlerFunc {
 		customError := errs.Convert(err)
 		if customError != nil {
 			//用webResult作为response
-			response = result.NewErrWebResult(customError)
+			response = result2.NewErrWebResult(customError)
 		}
 
 		//可能返回体是nil
 		if response == nil {
-			response = result.DefaultResponse{
+			response = result2.DefaultResponse{
 				Code: 0,
 				Msg:  "返回结果为空",
 			}
 		}
 
-		statusCode := enums.StatusCode(response.GetCode())
-		if statusCode != enums.StatusCodeOk {
+		statusCode := errs.StatusCode(response.GetCode())
+		if statusCode != errs.StatusCodeOk {
 			//出错了，打印错误
 			hlog.CtxInfof(ctx, "error: %v uri: %v", response.GetMsg(), appCtx.Request.URI())
 		}

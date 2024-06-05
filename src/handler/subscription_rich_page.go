@@ -3,10 +3,10 @@ package handler
 import (
 	"context"
 	"github.com/eyebluecn/sc-bff/idl_gen/sc_bff_api"
-	"github.com/eyebluecn/sc-bff/src/common/result"
-	"github.com/eyebluecn/sc-bff/src/converter/api_conv"
+	"github.com/eyebluecn/sc-bff/src/converter/vo2dto"
 	"github.com/eyebluecn/sc-bff/src/infra/rpc"
 	"github.com/eyebluecn/sc-bff/src/infra/session"
+	"github.com/eyebluecn/sc-bff/src/model/result"
 	"github.com/eyebluecn/sc-bff/src/util"
 	"github.com/eyebluecn/sc-subscription-idl/kitex_gen/sc_subscription_api"
 )
@@ -46,8 +46,8 @@ func (receiver SubscriptionRichPageHandler) Handle(ctx context.Context, appCtx *
 
 	return &sc_bff_api.SubscriptionRichPageResponse{
 		Data: &sc_bff_api.SubscriptionRichPageData{
-			Items:      api_conv.ConvertRichSubscriptionDTOS(richSubscriptionList),
-			Pagination: api_conv.ConvertPagination(pagination),
+			Items:      vo2dto.ConvertRichSubscriptionDTOS(richSubscriptionList),
+			Pagination: vo2dto.ConvertPagination(pagination),
 		},
 		Code: 0,
 		Msg:  "",
